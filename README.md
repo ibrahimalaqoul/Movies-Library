@@ -5,7 +5,7 @@ Movies Repo
 **Author Name**: Ibrahim Alaqoul.
 
 ## WRRC
-![](./WRRC.JPG)
+![img](/WRRC.JPG)
 
 ## Overview
 Movie Application that  you'll find Every intresting movie in it.

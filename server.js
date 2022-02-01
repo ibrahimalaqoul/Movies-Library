@@ -79,10 +79,14 @@ function dataHandler(req,res){
 };
 
 function getMoviesHandler(req,res){
-    axios.get(`https://api.themoviedb.org/3/movie/634649?api_key=${APIKEY}`).then(value => {
-        console.log(value.data);
-            let movieOne = new DataConstructer (value.data.id,value.data.title,value.data.release_date,value.data.poster_path,value.data.overview);            
-         return res.status(200).json(movieOne);
+    let myArray=[];
+    axios.get(`https://api.themoviedb.org/3/trending/all/day?api_key=${APIKEY}`).then(value => {
+        // console.log(value.data);
+            value.data.results.forEach(value=>{
+            let movieOne = new DataConstructer (value.id,value.title,value.release_date,value.poster_path,value.overview);            
+                myArray.push(movieOne)
+            })
+         return res.status(200).json(myArray);
     }).catch(error => {
         errorHandler(error, req,res);
     

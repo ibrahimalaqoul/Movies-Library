@@ -20,6 +20,10 @@ myapp.get('/searchmovie',searchForMovie)
 myapp.get('/randompath',anotherAPIfunction)
 myapp.post("/addFavMovies", addMoviesHandler);
 myapp.get("/getAllFavMovies", getAllFavMoviesHandler);
+myapp.get("/getFavMovies/:id", getFavMoviesHandler);
+myapp.put("/updateFavMoives/:id", updateFavMoviesHandler);
+myapp.delete("/deleteFavMovies/:id", deleteFavMoviesHandler)
+
 
 myapp.use(errorHandler);
 
@@ -115,7 +119,45 @@ function getAllFavMoviesHandler(req, res){
     })
 }
 
+function getFavMoviesHandler(req,res){
+    console.log(req.params.id);
+    const id = req.params.id;
+    const sql = `SELECT * FROM favMovies WHERE id=${id}`;
 
+    client.query(sql).then(data => {
+        
+        res.status(200).json(data.rows);
+    }).catch(error => {
+        console.log(error);
+        errorHandler(error, req, res);
+    })
+};
+
+function updateFavMoviesHandler(req, res){
+    const id = req.params.id;
+    const movie = req.body;
+
+    const sql = `UPDATE favMovies SET comment=$1 WHERE id=${id} RETURNING *;`
+    const values = [movie.comment];
+
+    client.query(sql,values).then(data => {
+        // return res.status(204).send([]);
+        return res.status(200).json(data.rows);
+    }).catch(error => {
+        errorHandler(error, req, res);
+    })
+};
+function deleteFavMoviesHandler(req, res){
+    const id = req.params.id;
+
+    const sql = `DELETE FROM favMovies WHERE id=${id};`
+
+    client.query(sql).then(() => {
+        return res.status(204).json([]);
+    }).catch(error => {
+        errorHandler(error, req, res);
+    })
+}
 
 client.connect().then(() => {
     myapp.listen(PORT, () => {

@@ -72,7 +72,8 @@ function errorHandler(error, req, res){
 };
 
 function dataConstructerHandler(req,res){
-    let Dataone = new DataConstructer (newData.id,newData.title,newData.poster_path,newData.overview);
+        let Dataone = new DataConstructer (newData.id,newData.title,newData.release_date,newData.poster_path,newData.overview);
+
     return res.status(200).json(Dataone);
 };
 function DataConstructer(id,title,release_date,poster_path,overview){

@@ -5,14 +5,14 @@ const newData = require("./Movie data/data.json");
 const dotenv = require('dotenv');
 const axios = require("axios");
 const pg = require("pg");
-
+const cors = require("cors");
 dotenv.config();
 const PORT = process.env.PORT;
 const APIKEY = process.env.APIKEY;
 const DATABASE_URL = process.env.DATABASE_URL;
 const client = new pg.Client(DATABASE_URL);
 myapp.use(express.json());
-
+myapp.use(cors());
 myapp.get('/',dataConstructerHandler);
 myapp.get('/favorite',dataHandler)
 myapp.get('/trending',getMoviesHandler)
